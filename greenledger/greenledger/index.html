@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreenLedger | Expense Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/style.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark"><i data-lucide="trending-up"></i></span>
+      <span class="brand-text">GreenLedger<small>Expense Tracker</small></span>
+    </div>
+
+    <nav class="side-nav">
+      <a href="#dashboard" class="nav-link active" data-target="dashboard"><i data-lucide="home"></i>Dashboard</a>
+      <a href="#add" class="nav-link" data-target="add"><i data-lucide="circle-plus"></i>Add Transaction</a>
+      <a href="#transactions" class="nav-link" data-target="transactions"><i data-lucide="list"></i>Transactions</a>
+      <a href="#reports" class="nav-link" data-target="reports"><i data-lucide="bar-chart-3"></i>Reports</a>
+      <a href="#categories" class="nav-link" data-target="categories"><i data-lucide="layout-grid"></i>Categories</a>
+      <a href="#about" class="nav-link" data-target="about"><i data-lucide="info"></i>About</a>
+    </nav>
+
+    <div class="side-promo">
+      <div class="promo-icon">
+        <i data-lucide="wallet"></i>
+        <i data-lucide="circle-dollar-sign" class="coin coin-a"></i>
+        <i data-lucide="circle-dollar-sign" class="coin coin-b"></i>
+      </div>
+      <h4>Track Today,<br>Save Tomorrow</h4>
+      <p>Take control of your money.</p>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <header id="dashboard" class="page-head">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Welcome to GreenLedger!</p>
+      </div>
+      <div class="date-pill"><i data-lucide="calendar"></i><span id="today-label">Aug 15, 2026</span></div>
+    </header>
+
+    <section class="stats">
+      <article class="stat stat-balance">
+        <span class="stat-icon"><i data-lucide="wallet"></i></span>
+        <div><label>Current Balance</label><b id="stat-balance">₱0.00</b></div>
+      </article>
+      <article class="stat">
+        <span class="stat-icon income"><i data-lucide="arrow-up"></i></span>
+        <div><label>Total Income</label><b id="stat-income">₱0.00</b></div>
+      </article>
+      <article class="stat">
+        <span class="stat-icon expense"><i data-lucide="arrow-down"></i></span>
+        <div><label>Total Expenses</label><b id="stat-expense">₱0.00</b></div>
+      </article>
+      <article class="stat">
+        <span class="stat-icon count"><i data-lucide="pie-chart"></i></span>
+        <div><label>Total Transactions</label><b id="stat-count">0</b></div>
+      </article>
+    </section>
+
+    <section class="grid-two">
+
+      <article id="add" class="card">
+        <div class="card-head">
+          <span class="card-head-icon"><i data-lucide="circle-plus"></i></span>
+          <h2>Add Transaction</h2>
+        </div>
+
+        <div class="type-switch">
+          <button type="button" class="type-btn active expense" data-type="expense"><i data-lucide="circle-minus"></i>Expense</button>
+          <button type="button" class="type-btn income" data-type="income"><i data-lucide="circle-plus"></i>Income</button>
+        </div>
+
+        <form id="form">
+          <label class="field">
+            <span>Amount</span>
+            <div class="input-icon money">
+              <span class="prefix">₱</span>
+              <input id="amount" type="number" min=".01" step=".01" required placeholder="Enter amount">
+            </div>
+          </label>
+
+          <div class="two-col">
+            <label class="field">
+              <span>Category</span>
+              <div class="input-icon select-wrap">
+                <span id="category-icon" class="prefix"><i data-lucide="utensils"></i></span>
+                <select id="category"></select>
+              </div>
+            </label>
+            <label class="field">
+              <span>Date</span>
+              <div class="input-icon">
+                <span class="prefix"><i data-lucide="calendar"></i></span>
+                <input id="date" type="date" required>
+              </div>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Description</span>
+            <input id="title" required placeholder="What did you spend on?">
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" id="submitBtn" class="btn primary full"><i data-lucide="send"></i>Add Transaction</button>
+            <button type="button" id="cancelEdit" class="btn ghost full hidden">Cancel Edit</button>
+          </div>
+        </form>
+      </article>
+
+      <article id="reports" class="card">
+        <div class="card-head">
+          <span class="card-head-icon"><i data-lucide="pie-chart"></i></span>
+          <h2>Spending Overview</h2>
+        </div>
+        <div id="pie-wrap" class="pie-wrap">
+          <div id="pie" class="pie"></div>
+          <ul id="legend" class="legend"></ul>
+        </div>
+        <div id="pie-empty" class="empty hidden">
+          <i data-lucide="pie-chart"></i>
+          <p>Add expenses to see your spending breakdown.</p>
+        </div>
+      </article>
+
+    </section>
+
+    <section id="transactions" class="card table-card">
+      <div class="card-head between">
+        <div class="card-head-left">
+          <span class="card-head-icon"><i data-lucide="list"></i></span>
+          <h2>Transaction History</h2>
+        </div>
+        <div class="filters">
+          <div class="pill-group">
+            <button class="pill active" data-filter="all">All</button>
+            <button class="pill" data-filter="income">Income</button>
+            <button class="pill" data-filter="expense">Expense</button>
+          </div>
+          <button id="clear" class="btn danger"><i data-lucide="trash-2"></i>Clear All</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th class="right">Amount</th><th class="right">Actions</th></tr>
+          </thead>
+          <tbody id="list"></tbody>
+        </table>
+      </div>
+      <div id="emptyTransactions" class="empty hidden">
+        <i data-lucide="inbox"></i>
+        <h3>No transactions yet</h3>
+        <p>Start by adding your first income or expense.</p>
+      </div>
+    </section>
+
+    <section id="categories" class="card">
+      <div class="card-head">
+        <span class="card-head-icon"><i data-lucide="layout-grid"></i></span>
+        <h2>Categories</h2>
+      </div>
+      <div id="categoryGrid" class="category-grid"></div>
+    </section>
+
+    <section id="about" class="card about-card">
+      <div class="card-head">
+        <span class="card-head-icon"><i data-lucide="info"></i></span>
+        <h2>About GreenLedger</h2>
+      </div>
+      <p>GreenLedger is a simple, personal expense tracker built with HTML, CSS, and JavaScript. Your data is stored locally in your browser. Log your income and expenses, watch your balance update in real time, and see exactly where your money goes with a live spending breakdown.</p>
+      <p class="muted">© 2026 GreenLedger · HTML + CSS + JavaScript</p>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="static/js/app.js"></script>
+</body>
+</html>
